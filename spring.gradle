@@ -1,0 +1,24 @@
+// For spring-exception-handling
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'org.springframework.boot:spring-boot-starter-actuator'
+
+    compile 'br.com.sicredi.common-libs:spring-exception-handling:1.0.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.11'
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+
+}

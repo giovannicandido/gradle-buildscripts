@@ -1,0 +1,47 @@
+apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
+
+test {
+    jacoco {
+        destinationFile = file("${project.buildDir}/jacoco/jacoco.exec")
+    }
+}
+
+jacoco {
+    toolVersion = jacocoVersion
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = false
+        csv.enabled = false
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExcludesAll)
+        })
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            excludes = jacocoExcludesAll
+            limit {
+                minimum = jacocoMinimumCoverage
+            }
+        }
+    }
+}
+
+task jacocoPreview(dependsOn: [clean, test, jacocoTestReport, jacocoTestCoverageVerification])
+
+sonarqube {
+    properties {
+        property "sonar.projectName", jacocoProjectName
+        property "sonar.projectKey", "br.com.sicredi:${project.name}"
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/jacoco.exec"
+        property "sonar.working.directory", "${project.buildDir}/sonar"
+        property "sonar.exclusions", "**/*.class"
+    }
+}

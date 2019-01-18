@@ -1,0 +1,9 @@
+ext {
+    jacocoVersion = "0.8.2"
+    jacocoExcludesAll = []
+    jacocoMinimumCoverage = 0.8
+    jacocoProjectName = "${project.name}"
+    springCloudVersion = 'Greenwich.RC2'
+    testMaxParallelForks = 2
+    swaggerVersion = "2.9.2"
+}
