@@ -1,10 +1,10 @@
-# gradle-buildscripts
+# Shared Gradle Build Scripts across projects
 
 Reusable gradle build scripts for multi spring boot microservices projects on the wild (lol)
 
 ## The theory of everything
 
-**Objectives**: 
+### Objectives 
 
 You want:
 
@@ -19,23 +19,43 @@ You DON'T want:
 * Make the life of your average developer miserable.
 * Broke every single microservice pipeline in one shot. 
 
-**Solution**: _Git subtree + Gradle scripts = Magic_
+### Solution: _Git subtree + Gradle scripts = Magic_
 
-That's it go do it. Ahahaha (this is lol in portuguese). Documentation is coming... I sure is simple... 
-
-Usage:
+#### Git side of the moon
 
 Add the project as a git subtree:
 
 ```bash
-
-git remote add gradle_scripts git@github.com:giovannicandido/gradle-scripts.git # please fork the code
-git fetch gradle_scripts
-git read-tree --prefix=gradle-scripts/ -u gradle_scripts
-
+git remote add -f gradle-scripts git@github.com:giovannicandido/gradle-scripts.git # please fork the code
+git subtree add --prefix=gradle-scripts/ gradle-scripts master --squash
 ```
 
-Apply the gradle plugins exemple
+This will create a subdir **gradle-scripts** with the commits of the gradle-scripts master branch squashed
+
+**Updating:**
+
+```bash
+git subtree pull --prefix=gradle-scripts/ gradle-scripts master --squash
+```
+
+**Contributing back:**
+
+Please use a fork.
+
+```bash
+git remote add my-fork git@github.com:my-user/gradle-scripts.git
+git subtree push --prefix=gradle-scripts my-fork master
+```
+
+Open a pull request and welcome to the party.
+
+Note: Other devs do nothing (clone, pull, push stays the same), but let they know you are using 
+"advanced" git stuff.
+
+#### Gradle side of the moon
+
+Apply the gradle plugins.
+Example:
 
 ```groovy
 buildscript {
@@ -85,8 +105,11 @@ dependencies {
 
 Note: I did'nt find a way to reuse **buildscript blocks**
 
-In the mean time:
+References:
 
-[Git subtree](https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging)
+[https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging](https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging)
 
-[Gradle build scripts](https://docs.gradle.org/current/userguide/plugins.html#sec:script_plugins)
+
+[https://docs.gradle.org/current/userguide/plugins.html](https://docs.gradle.org/current/userguide/plugins.html#sec:script_plugins)
+
+[https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree](https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree)
